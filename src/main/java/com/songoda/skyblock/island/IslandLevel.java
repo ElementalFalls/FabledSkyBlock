@@ -30,6 +30,7 @@ public class IslandLevel {
 
     // Highest level achieved, to prevent reward farming (since is level can decrease)
     private long highestLevel;
+    private double startingLevel;
 
     public IslandLevel(UUID ownerUUID, SkyBlock plugin) {
         this.plugin = plugin;
@@ -58,6 +59,7 @@ public class IslandLevel {
         this.materials = materials;
 
         this.highestLevel = configLoad.contains("Levelling.Highest-Level") ? configLoad.getLong("Levelling.Highest-Level") : getLevel();
+        this.startingLevel = configLoad.getDouble("Levelling.Starting-Level", 0);
     }
 
     public void setOwnerUUID(UUID ownerUUID) {
@@ -142,6 +144,10 @@ public class IslandLevel {
         } else {
             points = 0;
         }
+
+        if (startingLevel == 0) startingLevel = points;
+
+        points -= startingLevel;
 
         return Math.round(points) / division;
     }
@@ -287,6 +293,8 @@ public class IslandLevel {
         Config config = plugin.getFileManager().getConfig(new File(new File(plugin.getDataFolder().toString() + "/level-data"), ownerUUID.toString() + ".yml"));
         File configFile = config.getFile();
         FileConfiguration configLoad = config.getFileConfiguration();
+
+        configLoad.set("Levelling.Starting-Level", startingLevel);
 
         try {
             configLoad.save(configFile);
