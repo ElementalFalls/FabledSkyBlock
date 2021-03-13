@@ -32,6 +32,8 @@ public class IslandLevel {
     private long highestLevel;
     private double startingLevel;
 
+    private boolean wasScanned = false;
+
     public IslandLevel(UUID ownerUUID, SkyBlock plugin) {
         this.plugin = plugin;
         this.ownerUUID = ownerUUID;
@@ -145,7 +147,8 @@ public class IslandLevel {
             points = 0;
         }
 
-        if (startingLevel == 0) startingLevel = points;
+        if (wasScanned && startingLevel == 0) startingLevel = points;
+        wasScanned = false;
 
         points -= startingLevel;
 
@@ -269,6 +272,8 @@ public class IslandLevel {
         for (String materialList : materials.keySet()) {
             configLoad.set("Levelling.Materials." + materialList + ".Amount", materials.get(materialList));
         }
+
+        wasScanned = true;
 
         this.materials = materials;
     }

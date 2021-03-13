@@ -285,8 +285,9 @@ public class IslandManager {
         }), 20L);
 
         // Recalculate island level after 5 seconds
-        if (configLoad.getBoolean("Island.Levelling.ScanAutomatically"))
+        if (configLoad.getBoolean("Island.Levelling.ScanAutomatically")) {
             Bukkit.getServer().getScheduler().runTaskLater(plugin, () -> plugin.getLevellingManager().startScan(null, island), 100L);
+        }
 
         return true;
     }
