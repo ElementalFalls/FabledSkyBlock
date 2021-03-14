@@ -150,6 +150,11 @@ public class IslandLevel {
         if (wasScanned && startingLevel == 0) startingLevel = points;
         wasScanned = false;
 
+        if (points - startingLevel < 0) {
+            startingLevel = points;
+            points = 0;
+        }
+
         points -= startingLevel;
 
         return Math.round(points) / division;
