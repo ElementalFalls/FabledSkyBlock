@@ -152,7 +152,6 @@ public class IslandLevel {
 
         if (points - startingLevel < 0) {
             startingLevel = points;
-            points = 0;
         }
 
         points -= startingLevel;
